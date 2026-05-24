@@ -1,0 +1,69 @@
+<svg width="1080" height="720" viewBox="0 0 1080 720" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Pohled z dronu na Ranch Tyra</title>
+  <desc id="desc">Stylizovaný areál s cestou, stodolou, parkovištěm, sadem a travnatými plochami.</desc>
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0.9" y2="1">
+      <stop offset="0%" stop-color="#8d7d44"/>
+      <stop offset="100%" stop-color="#5d6e32"/>
+    </linearGradient>
+    <linearGradient id="field" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#d1c06f"/>
+      <stop offset="100%" stop-color="#8e9b46"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#2d2a16" flood-opacity="0.25"/>
+    </filter>
+    <pattern id="trees" width="42" height="42" patternUnits="userSpaceOnUse">
+      <circle cx="12" cy="16" r="9" fill="#405628"/>
+      <circle cx="22" cy="28" r="7" fill="#55693a"/>
+      <circle cx="32" cy="14" r="8" fill="#6d7f41"/>
+    </pattern>
+  </defs>
+
+  <rect width="1080" height="720" fill="url(#sky)"/>
+  <path d="M0 85 C140 40, 260 70, 390 135 C530 205, 660 230, 790 190 C910 156, 994 118, 1080 92 L1080 720 L0 720 Z" fill="url(#field)"/>
+  <path d="M0 274 C160 210, 254 230, 348 294 C456 367, 569 363, 676 322 C804 272, 923 266, 1080 308 L1080 720 L0 720 Z" fill="#98a04b" opacity="0.9"/>
+  <path d="M0 524 C130 430, 245 426, 386 470 C517 513, 656 563, 781 571 C912 579, 1000 530, 1080 498 L1080 720 L0 720 Z" fill="#7f8f3d" opacity="0.95"/>
+
+  <circle cx="190" cy="130" r="20" fill="#5c7135"/>
+  <circle cx="155" cy="176" r="18" fill="#445b2f"/>
+  <circle cx="235" cy="160" r="16" fill="#6a7a43"/>
+  <circle cx="882" cy="130" r="22" fill="#4f6630"/>
+  <circle cx="932" cy="186" r="16" fill="#5f7637"/>
+  <circle cx="822" cy="210" r="15" fill="#6a7a43"/>
+  <rect x="78" y="280" width="360" height="250" rx="28" fill="#62803b" opacity="0.55" stroke="#f6f2dd" stroke-width="4" stroke-dasharray="8 10"/>
+  <text x="235" y="423" fill="#f8f3e8" font-family="Arial, sans-serif" font-size="42" font-weight="700" letter-spacing="4" text-anchor="middle" transform="rotate(-12 235 423)">SAD</text>
+
+  <rect x="644" y="316" width="176" height="108" rx="18" fill="#cdb98b" opacity="0.98" stroke="#f8f4e8" stroke-width="4" stroke-dasharray="8 10" transform="rotate(-8 644 316)"/>
+  <text x="732" y="373" fill="#fffaf0" font-family="Arial, sans-serif" font-size="26" font-weight="700" letter-spacing="3" text-anchor="middle" transform="rotate(-8 732 373)">PARKOVIŠTĚ</text>
+
+  <path d="M234 224 C283 232, 328 250, 368 281 C396 303, 430 314, 462 328" fill="none" stroke="#f8f5ec" stroke-width="9" stroke-linecap="round"/>
+  <path d="M418 310 C509 275, 568 270, 638 246 C724 216, 806 195, 902 183" fill="none" stroke="#f8f5ec" stroke-width="9" stroke-linecap="round"/>
+  <path d="M184 499 C252 466, 308 441, 383 416 C445 395, 500 382, 566 346" fill="none" stroke="#f8f5ec" stroke-width="9" stroke-linecap="round"/>
+  <path d="M743 110 C700 152, 656 186, 607 225" fill="none" stroke="#f8f5ec" stroke-width="8" stroke-linecap="round"/>
+  <path d="M861 315 C805 338, 743 349, 682 358" fill="none" stroke="#f8f5ec" stroke-width="8" stroke-linecap="round"/>
+
+  <rect x="480" y="300" width="122" height="104" rx="16" fill="#efe5d0" stroke="#8f8a7c" stroke-width="5"/>
+  <rect x="500" y="318" width="82" height="68" rx="10" fill="#d7d1c5"/>
+  <path d="M467 300 L542 260 L620 300 Z" fill="#b8b0a2"/>
+  <text x="547" y="456" fill="#f5efdf" font-family="Arial, sans-serif" font-size="22" font-weight="700" letter-spacing="3" text-anchor="middle">DŮM MAJITELŮ</text>
+
+  <rect x="310" y="220" width="90" height="160" rx="14" fill="#9b6a42" stroke="#e3d8b9" stroke-width="6"/>
+  <path d="M300 220 L355 184 L407 220 Z" fill="#6d4b30"/>
+  <text x="268" y="230" fill="#fff9f0" font-family="Arial, sans-serif" font-size="24" font-weight="700" letter-spacing="3" transform="rotate(8 268 230)">STODOLA</text>
+
+  <rect x="418" y="112" width="214" height="136" rx="22" fill="#88a14e" opacity="0.55" stroke="#f4eedf" stroke-width="4" stroke-dasharray="7 8"/>
+  <text x="526" y="186" fill="#f9f4e6" font-family="Arial, sans-serif" font-size="22" font-weight="700" letter-spacing="3" text-anchor="middle" transform="rotate(-22 526 186)">TRAVNATÁ</text>
+  <text x="526" y="214" fill="#f9f4e6" font-family="Arial, sans-serif" font-size="22" font-weight="700" letter-spacing="3" text-anchor="middle" transform="rotate(-22 526 214)">PLOCHA #2</text>
+
+  <rect x="360" y="388" width="214" height="136" rx="22" fill="#88a14e" opacity="0.48" stroke="#f4eedf" stroke-width="4" stroke-dasharray="7 8"/>
+  <text x="468" y="444" fill="#f9f4e6" font-family="Arial, sans-serif" font-size="22" font-weight="700" letter-spacing="3" text-anchor="middle" transform="rotate(13 468 444)">TRAVNATÁ</text>
+  <text x="468" y="472" fill="#f9f4e6" font-family="Arial, sans-serif" font-size="22" font-weight="700" letter-spacing="3" text-anchor="middle" transform="rotate(13 468 472)">PLOCHA #1</text>
+
+  <rect x="62" y="138" width="230" height="200" fill="url(#trees)" opacity="0.9" rx="28"/>
+  <rect x="820" y="70" width="210" height="200" fill="url(#trees)" opacity="0.75" rx="28"/>
+  <rect x="74" y="548" width="250" height="128" fill="url(#trees)" opacity="0.65" rx="28"/>
+  <rect x="910" y="510" width="170" height="128" fill="url(#trees)" opacity="0.8" rx="28"/>
+
+  <text x="772" y="676" fill="#fffdf8" font-family="Arial, sans-serif" font-size="62" font-weight="900" letter-spacing="2">POHLED Z DRONU</text>
+</svg>

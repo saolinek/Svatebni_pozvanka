@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="cs">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Interaktivní svatební pozvánka Marka a Markéty s programem dne, místem konání a potvrzením účasti."
+    />
+    <title>Marek & Markéta | Svatební pozvánka</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="ambient-light" aria-hidden="true"></div>
+
+    <header class="site-header" aria-label="Hlavní navigace">
+      <a class="brand" href="#uvod" aria-label="Marek a Markéta">
+        <img src="logo-mm.png" alt="" />
+        <span>M&amp;M</span>
+      </a>
+      <nav aria-label="Sekce pozvánky">
+        <a href="#program">Program</a>
+        <a href="#misto">Místo</a>
+        <a href="#info">Info</a>
+        <a href="#rsvp">RSVP</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero" id="uvod" data-theme="dark" data-section>
+        <div class="hero__media" aria-hidden="true">
+          <img src="Pohled z dronu.jpg" alt="" />
+          <div class="hero__veil"></div>
+        </div>
+        <div class="hero__content">
+          <p class="eyebrow reveal-up">24. července 2027 | Ranch Tyra</p>
+          <h1 class="reveal-up" style="--delay: 90ms">
+            Marek
+            <span>&amp;</span>
+            Markéta
+          </h1>
+          <p class="hero__lead reveal-up" style="--delay: 180ms">
+            Den uprostřed beskydských kopců, kam zveme naše nejbližší na obřad,
+            hostinu a večer, který si chceme pamatovat.
+          </p>
+          <div class="hero__actions reveal-up" style="--delay: 270ms">
+            <a class="button button--light" href="#rsvp">Potvrdit účast</a>
+            <a class="button button--quiet" href="#program">Prohlédnout den</a>
+          </div>
+        </div>
+        <aside class="hero-card reveal-up" style="--delay: 360ms" aria-label="Rychlé informace">
+          <span>Začínáme</span>
+          <strong>13:00</strong>
+          <p>Prosíme dorazte s malou rezervou, areál bude otevřený od 12:00.</p>
+        </aside>
+        <a class="scroll-cue" href="#pozvani" aria-label="Pokračovat na pozvání">
+          <span></span>
+        </a>
+      </section>
+
+      <section class="section intro-section" id="pozvani" data-section data-reveal>
+        <div class="section__inner intro-grid">
+          <div>
+            <p class="eyebrow">S radostí vás zveme</p>
+            <h2>Na den, který chceme prožít spolu s vámi.</h2>
+          </div>
+          <div class="intro-copy">
+            <p>
+              Budeme moc rádi, když s námi oslavíte svatební obřad, společný oběd
+              a večerní veselku. Níže najdete vše podstatné: kdy přijet, kam dorazit,
+              co si vzít na sebe a jak nám dát vědět, že přijdete.
+            </p>
+            <div class="signature" aria-label="Marek a Markéta">Marek &amp; Markéta</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section countdown-section" aria-labelledby="countdown-title" data-section data-reveal>
+        <div class="section__inner countdown-layout">
+          <div>
+            <p class="eyebrow">Do svatby zbývá</p>
+            <h2 id="countdown-title">Odpočítáváme to s vámi</h2>
+          </div>
+          <div class="countdown" data-wedding-date="2027-07-24T13:00:00+02:00" aria-live="polite">
+            <div>
+              <strong data-countdown-days>0</strong>
+              <span>dnů</span>
+            </div>
+            <div>
+              <strong data-countdown-hours>0</strong>
+              <span>hodin</span>
+            </div>
+            <div>
+              <strong data-countdown-minutes>0</strong>
+              <span>minut</span>
+            </div>
+            <div>
+              <strong data-countdown-seconds>0</strong>
+              <span>vteřin</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section program-section" id="program" aria-labelledby="program-title" data-section data-reveal>
+        <div class="section__inner">
+          <div class="section-heading">
+            <p class="eyebrow">Harmonogram</p>
+            <h2 id="program-title">Co se kdy bude dít</h2>
+          </div>
+          <ol class="timeline">
+            <li data-reveal>
+              <time>12:30</time>
+              <div>
+                <h3>Příjezd hostů</h3>
+                <p>Parkování bude značené přímo u areálu, prosíme dorazte s malou rezervou.</p>
+              </div>
+            </li>
+            <li data-reveal>
+              <time>13:00</time>
+              <div>
+                <h3>Svatební obřad</h3>
+                <p>Obřad proběhne venku pod lipami. V případě deště se přesuneme do stodoly.</p>
+              </div>
+            </li>
+            <li data-reveal>
+              <time>14:00</time>
+              <div>
+                <h3>Přípitek a focení</h3>
+                <p>Po společné fotografii bude čas na gratulace, skleničku a drobné občerstvení.</p>
+              </div>
+            </li>
+            <li data-reveal>
+              <time>15:30</time>
+              <div>
+                <h3>Svatební hostina</h3>
+                <p>Společný oběd, dort a chvíle, kdy se konečně všichni v klidu posadíme.</p>
+              </div>
+            </li>
+            <li data-reveal>
+              <time>18:30</time>
+              <div>
+                <h3>Večerní oslava</h3>
+                <p>Hudba, tanec, raut a volný program až do noci.</p>
+              </div>
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <section class="section location-section" id="misto" aria-labelledby="misto-title" data-section data-reveal>
+        <div class="section__inner location-grid">
+          <div class="location-copy">
+            <p class="eyebrow">Místo konání</p>
+            <h2 id="misto-title">Ranch Tyra</h2>
+            <p>
+              Tyra 30, 739 61 Třinec 1. Areál bude otevřený od 12:00 a po celou
+              dobu bude k dispozici parkování, šatna i klidnější místo pro děti.
+            </p>
+            <div class="location-actions">
+              <a class="button" href="https://www.google.com/maps/search/?api=1&query=Tyra+30,+739+61+T%C5%99inec+1" target="_blank" rel="noreferrer">
+                Otevřít v mapách
+              </a>
+              <a class="button button--ghost" href="#rsvp">Potvrdit účast</a>
+            </div>
+          </div>
+          <div class="location-media" aria-label="Ranch Tyra">
+            <figure class="photo-frame">
+              <img src="Pohled z dronu.jpg" alt="Pohled z dronu na Ranch Tyra" />
+              <figcaption>Ranch Tyra z výšky</figcaption>
+            </figure>
+            <figure class="map-frame">
+              <img src="ranch-tyra-aerial.svg" alt="Stylizovaný pohled z dronu na Ranch Tyra" />
+              <figcaption>Orientační plán areálu</figcaption>
+            </figure>
+            <figure class="embed-frame">
+              <iframe
+                title="Google mapa Ranch Tyra"
+                src="https://www.google.com/maps?q=Tyra%2030,%20739%2061%20T%C5%99inec%201&output=embed"
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
+              ></iframe>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <section class="section info-section" id="info" aria-labelledby="info-title" data-section data-reveal>
+        <div class="section__inner">
+          <div class="section-heading">
+            <p class="eyebrow">Praktické informace</p>
+            <h2 id="info-title">Ať víte, co čekat</h2>
+          </div>
+          <div class="info-grid">
+            <article data-reveal>
+              <span>01</span>
+              <h3>Co na sebe</h3>
+              <p>
+                Semi-formal. Prosím vynechte bílé šaty a černou od hlavy k patě.
+                Slavnostně, pohodlně a s botami vhodnými i na trávu.
+              </p>
+            </article>
+            <article data-reveal>
+              <span>02</span>
+              <h3>Dary</h3>
+              <p>
+                Největším darem je, že dorazíte. Pokud byste nás přesto chtěli
+                obdarovat, potěší nás příspěvek na svatební cestu.
+              </p>
+            </article>
+            <article data-reveal>
+              <span>03</span>
+              <h3>Doprava</h3>
+              <p>
+                Po půlnoci bude odjíždět společný svoz směr Praha. Přesný čas
+                ještě upřesníme podle potvrzených hostů.
+              </p>
+            </article>
+            <article data-reveal>
+              <span>04</span>
+              <h3>Ubytování</h3>
+              <p>
+                V okolí je několik penzionů. Dejte nám vědět, jestli chcete
+                poradit s rezervací, rádi pošleme ověřené tipy.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section rsvp-section" id="rsvp" aria-labelledby="rsvp-title" data-section data-reveal>
+        <div class="section__inner rsvp-grid">
+          <div>
+            <p class="eyebrow">Potvrzení účasti</p>
+            <h2 id="rsvp-title">Dejte nám prosím vědět do 30. června 2027.</h2>
+            <p>
+              Napiš nám, jestli dorazíš, s kolika lidmi přijedeš a zda máš
+              nějaké dietní omezení.
+            </p>
+          </div>
+          <div class="rsvp-panel">
+            <div class="qr-card">
+              <img src="qr-code.png" alt="QR kód pro rychlé potvrzení účasti" />
+              <span>Rychlé RSVP</span>
+            </div>
+            <div class="rsvp-actions">
+              <a href="mailto:svatba@example.com?subject=Potvrzeni%20ucasti%20na%20svatbe" class="button button--light">
+                Napsat e-mail
+              </a>
+              <a href="tel:+420777123456" class="button button--quiet">Zavolat</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>Marek & Markéta | 24. července 2027</p>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
