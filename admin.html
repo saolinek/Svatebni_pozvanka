@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="cs">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>Admin | Potvrzení účasti</title>
+    <link rel="stylesheet" href="styles.css?v=20260623-assign" />
+  </head>
+  <body class="admin-page">
+    <main class="admin-shell">
+      <section class="admin-hero" aria-labelledby="admin-title">
+        <div>
+          <p class="eyebrow">Admin</p>
+          <h1 id="admin-title">Potvrzení účasti</h1>
+          <p>Přehled hostů, kteří vyplnili RSVP formulář.</p>
+        </div>
+        <a class="button button--ghost" href="/">Zpět na pozvánku</a>
+      </section>
+
+      <section class="admin-dashboard" data-admin-dashboard>
+        <p class="form-status" data-admin-status role="status"></p>
+        <div class="admin-stats" data-admin-stats></div>
+        <div class="admin-table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Host</th>
+                <th>Stav</th>
+                <th>Doprovod</th>
+                <th>Jídlo</th>
+                <th>Poznámka</th>
+                <th>Přiřazení</th>
+                <th>Odesláno</th>
+              </tr>
+            </thead>
+            <tbody data-admin-rows></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+    <script src="script.js?v=20260623-assign"></script>
+  </body>
+</html>

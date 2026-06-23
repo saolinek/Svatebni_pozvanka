@@ -23,6 +23,8 @@
         <a href="#program">Program</a>
         <a href="#misto">Místo</a>
         <a href="#info">Info</a>
+        <a href="#ucast">Účast</a>
+        <a href="#kontakty">Kontakty</a>
       </nav>
     </header>
 
@@ -223,6 +225,81 @@
         </div>
       </section>
 
+      <section class="section rsvp-section attendance-section" id="ucast" aria-labelledby="ucast-title" data-section data-reveal>
+        <div class="section__inner rsvp-grid attendance-grid">
+          <div>
+            <p class="eyebrow">Potvrzení účasti</p>
+            <h2 id="ucast-title">Dejte nám prosím vědět, jestli dorazíte.</h2>
+            <p>
+              Napište své jméno a potvrďte účast. Pokud dorazíte s doprovodem,
+              doplňte prosím i jeho jméno, ať s ním můžeme počítat.
+            </p>
+          </div>
+
+          <form class="rsvp-panel attendance-form" data-rsvp-form>
+            <label for="guest-name">Vaše jméno</label>
+            <input id="guest-name" name="guestName" type="text" autocomplete="name" required placeholder="Jméno a příjmení" data-guest-name />
+
+            <fieldset>
+              <legend>Dorazíte?</legend>
+              <label class="choice">
+                <input type="radio" name="attending" value="yes" required />
+                <span>Ano, dorazím</span>
+              </label>
+              <label class="choice">
+                <input type="radio" name="attending" value="no" required />
+                <span>Nemohu dorazit</span>
+              </label>
+            </fieldset>
+
+            <label for="plus-one">Doprovod</label>
+            <input id="plus-one" name="plusOne" type="text" autocomplete="name" placeholder="Jméno doprovodu" data-plus-one />
+
+            <label for="dietary">Jídlo a alergie</label>
+            <textarea id="dietary" name="dietary" rows="3" placeholder="Vegetarián, alergie, bez lepku..."></textarea>
+
+            <label for="note">Poznámka</label>
+            <textarea id="note" name="note" rows="3" placeholder="Cokoliv dalšího, co máme vědět"></textarea>
+
+            <button class="button" type="submit">Odeslat potvrzení</button>
+            <p class="form-status" data-rsvp-status role="status"></p>
+          </form>
+        </div>
+      </section>
+
+      <section class="section rsvp-section contact-section" id="kontakty" aria-labelledby="kontakty-title" data-section data-reveal>
+        <div class="section__inner rsvp-grid contact-grid">
+          <div>
+            <p class="eyebrow">Kontakty</p>
+            <h2 id="kontakty-title">Kdyby bylo potřeba cokoliv doladit</h2>
+            <p>
+              Tady najdete přímé kontakty na nás dva. Když bude potřeba upřesnit
+              příjezd, ubytování nebo cokoliv dalšího kolem dne, ozvěte se prosím
+              přímo.
+            </p>
+          </div>
+
+          <div class="rsvp-panel contact-panel">
+            <article class="contact-card" data-reveal>
+              <span>Nevěsta</span>
+              <h3>Markéta Kluzová (Dobešová)</h3>
+              <p class="contact-lines">
+                <span>Telefon: <a href="tel:+420724952402">724 952 402</a></span>
+                <span>E-mail: <a href="mailto:makikluzik@gmail.com">makikluzik@gmail.com</a></span>
+              </p>
+            </article>
+
+            <article class="contact-card" data-reveal>
+              <span>Ženich</span>
+              <h3>Marek Dobeš</h3>
+              <p class="contact-lines">
+                <span>Telefon: <a href="tel:+420727813019">727 813 019</a></span>
+                <span>E-mail: <a href="mailto:dobesmarek221@gmail.com">dobesmarek221@gmail.com</a></span>
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
 
     </main>
 

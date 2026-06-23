@@ -1,0 +1,12 @@
+{
+  "name": "svatebni-pozvanka",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "check": "node --check script.js && node --check netlify/functions/rsvp.mjs"
+  },
+  "dependencies": {
+    "@netlify/blobs": "10.7.9"
+  }
+}
