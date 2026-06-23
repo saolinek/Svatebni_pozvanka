@@ -3,7 +3,73 @@ const header = document.querySelector(".site-header");
 const navLinks = Array.from(document.querySelectorAll("nav a[href^='#']"));
 const revealItems = Array.from(document.querySelectorAll("[data-reveal], .reveal-up"));
 const sections = Array.from(document.querySelectorAll("[data-section]"));
+const rsvpForm = document.querySelector("[data-rsvp-form]");
+const guestNameInput = document.querySelector("[data-guest-name]");
+const rsvpStatus = document.querySelector("[data-rsvp-status]");
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+const setStatus = (element, message, type = "") => {
+  if (!element) return;
+  element.textContent = message;
+  element.dataset.status = type;
+};
+
+const getJson = async (url, options) => {
+  const response = await fetch(url, {
+    cache: "no-store",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...(options?.headers || {}),
+    },
+  });
+  const contentType = response.headers.get("content-type") || "";
+  const isJson = contentType.includes("application/json");
+  const data = isJson ? await response.json().catch(() => ({})) : {};
+
+  if (!response.ok || !isJson) {
+    throw new Error(data.error || "Požadavek se nepodařilo zpracovat.");
+  }
+
+  return data;
+};
+
+if (rsvpForm) {
+  rsvpForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const formData = new FormData(rsvpForm);
+    const submitButton = rsvpForm.querySelector("button[type='submit']");
+    const payload = {
+      guestName: formData.get("guestName"),
+      attending: formData.get("attending") === "yes",
+      plusOne: formData.get("plusOne"),
+      dietary: formData.get("dietary"),
+      note: formData.get("note"),
+    };
+
+    if (!payload.guestName || String(payload.guestName).trim().length < 2) {
+      guestNameInput?.focus();
+      setStatus(rsvpStatus, "Napište prosím své jméno.", "error");
+      return;
+    }
+
+    submitButton?.setAttribute("disabled", "");
+    setStatus(rsvpStatus, "Odesílám potvrzení...", "");
+
+    try {
+      await getJson("/.netlify/functions/rsvp", {
+        method: "POST",
+        body: JSON.stringify(payload),
+      });
+      rsvpForm.reset();
+      setStatus(rsvpStatus, "Děkujeme, potvrzení máme uložené.", "success");
+    } catch (error) {
+      setStatus(rsvpStatus, error.message, "error");
+    } finally {
+      submitButton?.removeAttribute("disabled");
+    }
+  });
+}
 
 if (countdown) {
   const target = new Date(countdown.dataset.weddingDate).getTime();
