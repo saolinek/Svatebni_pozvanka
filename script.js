@@ -154,8 +154,14 @@ if (sections.length && navLinks.length) {
 
       header?.setAttribute("data-theme", theme);
       navLinks.forEach((link) => {
-        link.classList.toggle("is-active", link.getAttribute("href") === `#${id}`);
+        const isActive = link.getAttribute("href") === `#${id}`;
+        link.classList.toggle("is-active", isActive);
+        if (isActive) {
+          link.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+        }
       });
+
+
     },
     {
       rootMargin: "-28% 0px -58% 0px",
