@@ -952,6 +952,73 @@ p {
   color: #b91c1c; /* Crimson Red */
 }
 
+/* RSVP Success Confirmation Panel */
+.rsvp-success {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 48px 32px;
+  text-align: center;
+  animation: rsvpSuccessFadeIn 0.5s ease both;
+}
+
+.rsvp-success.is-visible {
+  display: flex;
+}
+
+@keyframes rsvpSuccessFadeIn {
+  from { opacity: 0; transform: scale(0.92) translateY(16px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.rsvp-success__icon {
+  font-size: 3.5rem;
+  line-height: 1;
+  animation: rsvpHeartBeat 1s ease 0.3s both;
+}
+
+@keyframes rsvpHeartBeat {
+  0%   { transform: scale(0); }
+  60%  { transform: scale(1.25); }
+  80%  { transform: scale(0.9); }
+  100% { transform: scale(1); }
+}
+
+.rsvp-success__title {
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 4vw, 2.2rem);
+  color: var(--color-primary);
+  margin: 0;
+  line-height: 1.2;
+}
+
+.rsvp-success__text {
+  font-size: 1rem;
+  color: var(--color-text-muted);
+  margin: 0;
+  max-width: 36ch;
+  line-height: 1.6;
+}
+
+.rsvp-success__again {
+  margin-top: 8px;
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color var(--transition-fast);
+}
+
+.rsvp-success__again:hover {
+  color: var(--color-accent);
+}
+
 /* Contacts Panel & Cards */
 .contact-panel {
   display: grid;
@@ -1227,24 +1294,25 @@ footer p {
     width: calc(100% - 32px);
     max-width: 480px;
     min-height: auto;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
-    gap: 8px;
-    padding: 10px 12px 8px;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 8px 12px 8px 16px;
     border-radius: 20px;
   }
 
   .brand img {
-    width: 32px;
-    height: 32px;
+    width: 44px;
+    height: 44px;
   }
 
   .site-header nav {
     gap: 4px 6px;
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
-    width: 100%;
+    justify-content: flex-end;
+    flex: 1;
   }
 
   .site-header nav a {

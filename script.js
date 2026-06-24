@@ -35,6 +35,40 @@ const getJson = async (url, options) => {
 };
 
 if (rsvpForm) {
+  const rsvpSuccessPanel = document.querySelector("[data-rsvp-success]");
+  const rsvpSuccessTitle = document.querySelector("[data-rsvp-success-title]");
+  const rsvpAgainBtn = document.querySelector("[data-rsvp-again]");
+
+  const showSuccess = (name, attending) => {
+    rsvpForm.hidden = true;
+    if (rsvpSuccessTitle) {
+      rsvpSuccessTitle.textContent = attending
+        ? `Skvělé, ${name}! Těšíme se na vás! 🎉`
+        : `Díky za odpověď, ${name}.`;
+    }
+    if (rsvpSuccessPanel) {
+      // Swap text for declined
+      const textEl = rsvpSuccessPanel.querySelector(".rsvp-success__text");
+      if (textEl) {
+        textEl.textContent = attending
+          ? "Potvrzení jsme přijali. Pokud by se cokoli změnilo, napište nám."
+          : "Mrzí nás to, ale chápeme. Pokud by se cokoli změnilo, ozvěte se nám.";
+      }
+      rsvpSuccessPanel.classList.add("is-visible");
+    }
+  };
+
+  const showForm = () => {
+    rsvpForm.hidden = false;
+    rsvpForm.reset();
+    setStatus(rsvpStatus, "", "");
+    if (rsvpSuccessPanel) rsvpSuccessPanel.classList.remove("is-visible");
+  };
+
+  if (rsvpAgainBtn) {
+    rsvpAgainBtn.addEventListener("click", showForm);
+  }
+
   rsvpForm.addEventListener("submit", async (event) => {
     event.preventDefault();
     const formData = new FormData(rsvpForm);
@@ -59,8 +93,7 @@ if (rsvpForm) {
         method: "POST",
         body: JSON.stringify(payload),
       });
-      rsvpForm.reset();
-      setStatus(rsvpStatus, "Děkujeme, potvrzení máme uložené.", "success");
+      showSuccess(String(payload.guestName).trim().split(" ")[0], payload.attending);
     } catch (error) {
       setStatus(rsvpStatus, error.message, "error");
     } finally {
