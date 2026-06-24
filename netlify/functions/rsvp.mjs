@@ -39,7 +39,7 @@ const loadGuests = async () => {
     }));
 };
 
-const getStoreInstance = () => getStore({ name: "wedding-rsvp", consistency: "strong" });
+const getStoreInstance = () => getStore({ name: "wedding-rsvp" });
 
 export async function handler(event) {
   if (event.httpMethod === "OPTIONS") {
@@ -55,7 +55,7 @@ export async function handler(event) {
       const store = getStoreInstance();
       const list = await store.list();
       const entries = await Promise.all(
-        list.blobs.map(async (blob) => store.get(blob.key, { type: "json", consistency: "strong" }))
+        list.blobs.map(async (blob) => store.get(blob.key, { type: "json" }))
       );
       const guestMap = new Map(guests.map((guest) => [guest.id, guest]));
       const responses = entries
@@ -89,7 +89,7 @@ export async function handler(event) {
       }
 
       const store = getStoreInstance();
-      const existing = await store.get(responseId, { type: "json", consistency: "strong" });
+      const existing = await store.get(responseId, { type: "json" });
       if (!existing) {
         return json(404, { error: "Odpověď nebyla nalezena." });
       }
