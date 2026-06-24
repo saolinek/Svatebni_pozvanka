@@ -16,6 +16,14 @@ const json = (statusCode, body) => ({
   body: JSON.stringify(body),
 });
 
+const normalizeForMatching = (str) => {
+  return String(str || "")
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/\s+/g, "");
+};
+
 const normalizeText = (value, maxLength = 500) =>
   String(value || "")
     .replace(/\s+/g, " ")
@@ -119,6 +127,23 @@ export async function handler(event) {
       return json(200, { ok: true, response: updated });
     }
 
+    if (event.httpMethod === "DELETE") {
+      const payload = JSON.parse(event.body || "{}");
+      const responseId = normalizeText(payload.responseId, 120);
+      if (!responseId) {
+        return json(400, { error: "Chybí ID odpovědi." });
+      }
+
+      const store = getStoreInstance();
+      const existing = await store.get(responseId, { type: "json" });
+      if (!existing) {
+        return json(404, { error: "Odpověď nebyla nalezena." });
+      }
+
+      await store.delete(responseId);
+      return json(200, { ok: true });
+    }
+
     if (event.httpMethod !== "POST") {
       return json(405, { error: "Metoda není podporovaná." });
     }
@@ -134,6 +159,9 @@ export async function handler(event) {
       return json(400, { error: "Vyberte prosím, jestli dorazíte." });
     }
 
+    const normalizedInput = normalizeForMatching(guestName);
+    const matchedGuest = guests.find((g) => normalizeForMatching(g.name) === normalizedInput);
+
     const responseId = randomUUID();
     const response = {
       responseId,
@@ -142,9 +170,9 @@ export async function handler(event) {
       plusOne: "",
       dietary: "",
       note: normalizeText(payload.note, 500),
-      assignedGuestId: "",
-      assignedGuestName: "",
-      assignedGroup: "",
+      assignedGuestId: matchedGuest ? matchedGuest.id : "",
+      assignedGuestName: matchedGuest ? matchedGuest.name : "",
+      assignedGroup: matchedGuest ? matchedGuest.group : "",
       submittedAt: new Date().toISOString(),
     };
 
@@ -153,6 +181,7 @@ export async function handler(event) {
       metadata: {
         responseId,
         attending: String(response.attending),
+        assigned: String(Boolean(response.assignedGuestId || response.assignedGuestName)),
       },
     });
 

@@ -53,6 +53,14 @@ def normalize_text(value, max_length=500):
     return " ".join(str(value or "").split()).strip()[:max_length]
 
 
+def normalize_for_matching(s):
+    import unicodedata
+    return "".join(
+        c for c in unicodedata.normalize("NFD", str(s or "").lower())
+        if unicodedata.category(c) != "Mn"
+    ).replace(" ", "")
+
+
 class WeddingInvitationHandler(SimpleHTTPRequestHandler):
     def log_message(self, format, *args):
         print(f"{self.address_string()} - {format % args}")
@@ -150,6 +158,13 @@ class WeddingInvitationHandler(SimpleHTTPRequestHandler):
             self._send_json(400, {"error": "Vyberte prosím, jestli dorazíte."})
             return
 
+        guests = load_guests()
+        norm_name = normalize_for_matching(guest_name)
+        matched_guest = next(
+            (g for g in guests if normalize_for_matching(g["name"]) == norm_name),
+            None
+        )
+
         response_id = str(uuid.uuid4())
         response = {
             "responseId": response_id,
@@ -158,9 +173,9 @@ class WeddingInvitationHandler(SimpleHTTPRequestHandler):
             "plusOne": "",
             "dietary": "",
             "note": normalize_text(payload.get("note"), 500),
-            "assignedGuestId": "",
-            "assignedGuestName": "",
-            "assignedGroup": "",
+            "assignedGuestId": matched_guest["id"] if matched_guest else "",
+            "assignedGuestName": matched_guest["name"] if matched_guest else "",
+            "assignedGroup": matched_guest.get("group", "") if matched_guest else "",
             "submittedAt": datetime.now(timezone.utc).isoformat(),
         }
 
@@ -205,6 +220,25 @@ class WeddingInvitationHandler(SimpleHTTPRequestHandler):
 
         save_responses(responses)
         self._send_json(200, {"ok": True, "response": target})
+
+    def _handle_rsvp_delete(self):
+        payload = self._read_body()
+        response_id = normalize_text(payload.get("responseId"), 120)
+
+        if not response_id:
+            self._send_json(400, {"error": "Chybí ID odpovědi."})
+            return
+
+        responses = load_responses()
+        initial_len = len(responses)
+        responses = [r for r in responses if r.get("responseId") != response_id]
+
+        if len(responses) == initial_len:
+            self._send_json(404, {"error": "Odpověď nebyla nalezena."})
+            return
+
+        save_responses(responses)
+        self._send_json(200, {"ok": True})
 
     def send_head(self):
         if self.command not in {"GET", "HEAD"}:
@@ -253,6 +287,12 @@ class WeddingInvitationHandler(SimpleHTTPRequestHandler):
     def do_PATCH(self):
         if self._is_rsvp_path():
             self._handle_rsvp_patch()
+            return
+        self.send_error(HTTPStatus.NOT_FOUND, "Not Found")
+
+    def do_DELETE(self):
+        if self._is_rsvp_path():
+            self._handle_rsvp_delete()
             return
         self.send_error(HTTPStatus.NOT_FOUND, "Not Found")
 

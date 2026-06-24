@@ -1,1 +1,192 @@
-[]
+[
+  {
+    "id": "petr-kluzova",
+    "name": "Petr Kluzová",
+    "group": "Kluzovi"
+  },
+  {
+    "id": "tomas-kluz",
+    "name": "Tomáš Kluz",
+    "group": "Kluzovi"
+  },
+  {
+    "id": "bronislava-kluzova",
+    "name": "Bronislava Kluzová",
+    "group": "Kluzovi"
+  },
+  {
+    "id": "jan-kluz",
+    "name": "Jan Kluz",
+    "group": "Kluzovi"
+  },
+  {
+    "id": "lenka-szymurdova",
+    "name": "Lenka Szymurdová",
+    "group": "Szymurdovi"
+  },
+  {
+    "id": "petr-szymurda",
+    "name": "Petr Szymurda",
+    "group": "Szymurdovi"
+  },
+  {
+    "id": "frantisek-szymurda",
+    "name": "František Szymurda",
+    "group": "Szymurdovi"
+  },
+  {
+    "id": "anezka-szymurdova",
+    "name": "Anežka Szymurdová",
+    "group": "Szymurdovi"
+  },
+  {
+    "id": "barunka-szymurdova",
+    "name": "Barunka Szymurdová",
+    "group": "Szymurdovi"
+  },
+  {
+    "id": "ludmila-blechova",
+    "name": "Ludmila Blechová",
+    "group": "Blechovi"
+  },
+  {
+    "id": "sona-dobesova",
+    "name": "Soňa Dobešová",
+    "group": "Dobešovi"
+  },
+  {
+    "id": "richard-cieslar",
+    "name": "Richard Cieslar",
+    "group": "Cieslarovi"
+  },
+  {
+    "id": "martin-cieslar",
+    "name": "Martin Cieslar",
+    "group": "Cieslarovi"
+  },
+  {
+    "id": "vanda-petrkovska",
+    "name": "Vanda Petřkovská",
+    "group": "Petřkovští"
+  },
+  {
+    "id": "richard-petrkovsky",
+    "name": "Richard Petřkovský",
+    "group": "Petřkovští"
+  },
+  {
+    "id": "vera-szotkovska",
+    "name": "Veřa Szotkowská",
+    "group": "Szotkowští"
+  },
+  {
+    "id": "vasek-szotkovsky",
+    "name": "Vašek Szotkowský",
+    "group": "Szotkowští"
+  },
+  {
+    "id": "adriana-szotkovska",
+    "name": "Adriana Szotkowská",
+    "group": "Szotkowští"
+  },
+  {
+    "id": "nikola-szotkovska",
+    "name": "Nikola Szotkowská",
+    "group": "Szotkowští"
+  },
+  {
+    "id": "david-chudomsky",
+    "name": "David Chudomský",
+    "group": "Chudomští"
+  },
+  {
+    "id": "jitka-chudomsky",
+    "name": "Jitka Chudomská",
+    "group": "Chudomští"
+  },
+  {
+    "id": "adela-bojkova",
+    "name": "Adéla Bojková",
+    "group": "Bojkovi"
+  },
+  {
+    "id": "filip-nieslanik",
+    "name": "Filip Nieslanik",
+    "group": "Nieslanikovi"
+  },
+  {
+    "id": "marie-kufova",
+    "name": "Marie Kufová",
+    "group": "Kufovi"
+  },
+  {
+    "id": "jarek-sajdok",
+    "name": "Jarek Sajdok",
+    "group": "Sajdokovi"
+  },
+  {
+    "id": "mariusz-lisztwan",
+    "name": "Mariusz Lisztwan",
+    "group": "Lisztwanovi"
+  },
+  {
+    "id": "jakub-babiuch",
+    "name": "Jakub Babiuch",
+    "group": "Babiuchovi"
+  },
+  {
+    "id": "robin-gaube",
+    "name": "Robin Gaube",
+    "group": "Gaubovi"
+  },
+  {
+    "id": "michaela-filgasova",
+    "name": "Michaela Filgasová",
+    "group": "Filgasovi"
+  },
+  {
+    "id": "dominik-stadhler",
+    "name": "Dominik Stadhler",
+    "group": "Stadhlerovi"
+  },
+  {
+    "id": "zuzana-plaskova",
+    "name": "Zuzana Plášková",
+    "group": "Pláškovi"
+  },
+  {
+    "id": "michal-bernatik",
+    "name": "Michal Bernatík",
+    "group": "Bernatíkovi"
+  },
+  {
+    "id": "barbora",
+    "name": "Barbora",
+    "group": "Ostatní"
+  },
+  {
+    "id": "alenka-szvitkova",
+    "name": "Alenka Szvitkova",
+    "group": "Szvitkovi"
+  },
+  {
+    "id": "lukas-bielan",
+    "name": "Lukáš Bielan",
+    "group": "Bielanovi"
+  },
+  {
+    "id": "anna-stasikova",
+    "name": "Anna Stasiková",
+    "group": "Stasikovi"
+  },
+  {
+    "id": "jakub-liberda",
+    "name": "Jakub Liberda",
+    "group": "Liberdovi"
+  },
+  {
+    "id": "adelka-guznarova",
+    "name": "Adélka Guznarová",
+    "group": "Guznarovi"
+  }
+]

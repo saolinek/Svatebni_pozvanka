@@ -38,6 +38,17 @@ if (rsvpForm) {
   const rsvpSuccessPanel = document.querySelector("[data-rsvp-success]");
   const rsvpSuccessTitle = document.querySelector("[data-rsvp-success-title]");
   const rsvpAgainBtn = document.querySelector("[data-rsvp-again]");
+  const rsvpCloseBtn = document.querySelector("[data-rsvp-close]");
+  
+  const rsvpInlineSuccess = document.querySelector("[data-rsvp-inline-success]");
+  const rsvpInlineTitle = document.querySelector("[data-rsvp-inline-title]");
+  const rsvpInlineText = document.querySelector("[data-rsvp-inline-text]");
+  const rsvpInlineAgainBtn = document.querySelector("[data-rsvp-inline-again]");
+
+  const closeSuccessModal = () => {
+    if (rsvpSuccessPanel) rsvpSuccessPanel.classList.remove("is-visible");
+    document.body.classList.remove("modal-open");
+  };
 
   const showSuccess = (name, attending) => {
     rsvpForm.hidden = true;
@@ -47,7 +58,6 @@ if (rsvpForm) {
         : `Díky za odpověď, ${name}.`;
     }
     if (rsvpSuccessPanel) {
-      // Swap text for declined
       const textEl = rsvpSuccessPanel.querySelector(".rsvp-success__text");
       if (textEl) {
         textEl.textContent = attending
@@ -55,6 +65,21 @@ if (rsvpForm) {
           : "Mrzí nás to, ale chápeme. Pokud by se cokoli změnilo, ozvěte se nám.";
       }
       rsvpSuccessPanel.classList.add("is-visible");
+      document.body.classList.add("modal-open");
+    }
+
+    if (rsvpInlineSuccess) {
+      if (rsvpInlineTitle) {
+        rsvpInlineTitle.textContent = attending
+          ? `Těšíme se na vás, ${name}! 🎉`
+          : `Díky za odpověď, ${name}.`;
+      }
+      if (rsvpInlineText) {
+        rsvpInlineText.textContent = attending
+          ? "Potvrzení bylo úspěšně odesláno. Pokud by se cokoli změnilo, napište nám."
+          : "Odpověď byla úspěšně odeslána. Pokud by se cokoli změnilo, ozvěte se nám.";
+      }
+      rsvpInlineSuccess.classList.add("is-visible");
     }
   };
 
@@ -63,11 +88,38 @@ if (rsvpForm) {
     rsvpForm.reset();
     setStatus(rsvpStatus, "", "");
     if (rsvpSuccessPanel) rsvpSuccessPanel.classList.remove("is-visible");
+    document.body.classList.remove("modal-open");
+    if (rsvpInlineSuccess) rsvpInlineSuccess.classList.remove("is-visible");
   };
 
   if (rsvpAgainBtn) {
-    rsvpAgainBtn.addEventListener("click", showForm);
+    rsvpAgainBtn.addEventListener("click", () => {
+      closeSuccessModal();
+      showForm();
+    });
   }
+
+  if (rsvpInlineAgainBtn) {
+    rsvpInlineAgainBtn.addEventListener("click", showForm);
+  }
+
+  if (rsvpCloseBtn) {
+    rsvpCloseBtn.addEventListener("click", closeSuccessModal);
+  }
+
+  if (rsvpSuccessPanel) {
+    rsvpSuccessPanel.addEventListener("click", (e) => {
+      if (e.target === rsvpSuccessPanel) {
+        closeSuccessModal();
+      }
+    });
+  }
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && rsvpSuccessPanel && rsvpSuccessPanel.classList.contains("is-visible")) {
+      closeSuccessModal();
+    }
+  });
 
   rsvpForm.addEventListener("submit", async (event) => {
     event.preventDefault();
@@ -207,6 +259,7 @@ if (adminDashboard) {
   const statsEl = adminDashboard.querySelector("[data-admin-stats]");
   const rowsEl = adminDashboard.querySelector("[data-admin-rows]");
   const statusEl = adminDashboard.querySelector("[data-admin-status]");
+  const guestRowsEl = adminDashboard.querySelector("[data-guest-status-rows]");
 
   const formatDateTime = (isoString) => {
     if (!isoString) return "";
@@ -233,7 +286,7 @@ if (adminDashboard) {
     setStatus(statusEl, "Načítám data...", "");
     try {
       const data = await getJson("/.netlify/functions/rsvp");
-      renderStats(data.stats);
+      renderStats(data.responses, data.guests);
       renderTable(data.responses, data.guests);
       setStatus(statusEl, "", "");
     } catch (error) {
@@ -241,24 +294,33 @@ if (adminDashboard) {
     }
   };
 
-  const renderStats = (stats) => {
+  const renderStats = (responses, guests) => {
     if (!statsEl) return;
+
+    const attendingGuests = guests.filter(g => responses.some(r => r.assignedGuestId === g.id && r.attending)).length;
+    const declinedGuests = guests.filter(g => responses.some(r => r.assignedGuestId === g.id && !r.attending)).length;
+    const pendingGuests = guests.length - attendingGuests - declinedGuests;
+
     statsEl.innerHTML = `
       <div class="admin-stat-card">
-        <strong>${stats.responses}</strong>
-        <span>Odpovědí</span>
+        <strong>${guests.length}</strong>
+        <span>Pozvaných hostů</span>
       </div>
       <div class="admin-stat-card">
-        <strong>${stats.attending}</strong>
-        <span>Dorazí</span>
+        <strong>${attendingGuests}</strong>
+        <span>Potvrdilo</span>
       </div>
       <div class="admin-stat-card">
-        <strong>${stats.declined}</strong>
-        <span>Nedorazí</span>
+        <strong>${declinedGuests}</strong>
+        <span>Odmítlo</span>
       </div>
       <div class="admin-stat-card">
-        <strong>${stats.assigned}/${stats.responses}</strong>
-        <span>Spárováno</span>
+        <strong>${pendingGuests}</strong>
+        <span>Bez odpovědi</span>
+      </div>
+      <div class="admin-stat-card">
+        <strong>${responses.length}</strong>
+        <span>Odpovědí celkem</span>
       </div>
     `;
   };
@@ -266,74 +328,155 @@ if (adminDashboard) {
   const renderTable = (responses, guests) => {
     if (!rowsEl) return;
     if (!responses.length) {
-      rowsEl.innerHTML = `<tr><td colspan="5" style="text-align: center; padding: 30px;">Zatím žádné odpovědi.</td></tr>`;
-      return;
+      rowsEl.innerHTML = `<tr><td colspan="6" style="text-align: center; padding: 30px;">Zatím žádné odpovědi.</td></tr>`;
+    } else {
+      rowsEl.innerHTML = responses
+        .map((resp) => {
+          const attendingBadge = resp.attending
+            ? `<span class="badge badge--success">Ano</span>`
+            : `<span class="badge badge--danger">Ne</span>`;
+
+          const optionsHtml = [
+            `<option value="">-- Nepřiřazeno --</option>`,
+            ...guests.map((g) => {
+              const selected = g.id === resp.assignedGuestId ? "selected" : "";
+              return `<option value="${g.id}" ${selected}>${g.name} (${g.group || "Bez skupiny"})</option>`;
+            }),
+          ].join("");
+
+          let noteContent = escapeHtml(resp.note) || '';
+          const extras = [];
+          if (resp.plusOne) {
+            extras.push(`Doprovod: ${escapeHtml(resp.plusOne)}`);
+          }
+          if (resp.dietary) {
+            extras.push(`Jídlo/Alergie: ${escapeHtml(resp.dietary)}`);
+          }
+          if (extras.length > 0) {
+            const extrasStr = `<div class="admin-note-extras" style="font-size: 0.85em; margin-top: 4px; color: var(--color-text-muted); border-top: 1px dashed var(--color-border); padding-top: 4px;">${extras.join('<br>')}</div>`;
+            noteContent = noteContent ? `${noteContent}${extrasStr}` : extrasStr;
+          }
+          if (!noteContent) {
+            noteContent = '<span style="color: var(--color-text-muted); opacity: 0.5;">-</span>';
+          }
+
+          return `
+            <tr data-response-id="${resp.responseId}">
+              <td><strong>${escapeHtml(resp.guestName)}</strong></td>
+              <td>${attendingBadge}</td>
+              <td>${noteContent}</td>
+              <td>
+                <select class="admin-assign-select" data-response-id="${resp.responseId}">
+                  ${optionsHtml}
+                </select>
+              </td>
+              <td>${formatDateTime(resp.submittedAt)}</td>
+              <td>
+                <button class="admin-delete-btn" data-response-id="${resp.responseId}" aria-label="Odstranit odpověď od ${escapeHtml(resp.guestName)}">
+                  Odstranit
+                </button>
+              </td>
+            </tr>
+          `;
+        })
+        .join("");
+
+      rowsEl.querySelectorAll(".admin-assign-select").forEach((select) => {
+        select.addEventListener("change", async (e) => {
+          const responseId = e.target.dataset.responseId;
+          const assignedGuestId = e.target.value;
+          e.target.disabled = true;
+
+          try {
+            await getJson("/.netlify/functions/rsvp", {
+              method: "PATCH",
+              body: JSON.stringify({ responseId, assignedGuestId }),
+            });
+            await loadAdminData();
+          } catch (err) {
+            alert("Chyba při přiřazení: " + err.message);
+            e.target.disabled = false;
+          }
+        });
+      });
+
+      rowsEl.querySelectorAll(".admin-delete-btn").forEach((button) => {
+        button.addEventListener("click", async (e) => {
+          const responseId = e.currentTarget.dataset.responseId;
+          const row = e.currentTarget.closest("tr");
+          const guestName = row.querySelector("td strong").textContent;
+
+          if (confirm(`Opravdu chcete odstranit odpověď od hosta "${guestName}"?`)) {
+            e.currentTarget.disabled = true;
+            try {
+              await getJson("/.netlify/functions/rsvp", {
+                method: "DELETE",
+                body: JSON.stringify({ responseId }),
+              });
+              await loadAdminData();
+            } catch (err) {
+              alert("Chyba při mazání: " + err.message);
+              e.currentTarget.disabled = false;
+            }
+          }
+        });
+      });
     }
 
-    rowsEl.innerHTML = responses
-      .map((resp) => {
-        const attendingBadge = resp.attending
-          ? `<span class="badge badge--success">Ano</span>`
-          : `<span class="badge badge--danger">Ne</span>`;
+    // Render guest status list
+    if (guestRowsEl) {
+      if (!guests.length) {
+        guestRowsEl.innerHTML = `<tr><td colspan="4" style="text-align: center; padding: 30px;">Žádní pozvaní hosté.</td></tr>`;
+      } else {
+        const sortedGuests = [...guests].sort((a, b) => {
+          const groupCompare = (a.group || "").localeCompare(b.group || "");
+          if (groupCompare !== 0) return groupCompare;
+          return (a.name || "").localeCompare(b.name || "");
+        });
 
-        const optionsHtml = [
-          `<option value="">-- Nepřiřazeno --</option>`,
-          ...guests.map((g) => {
-            const selected = g.id === resp.assignedGuestId ? "selected" : "";
-            return `<option value="${g.id}" ${selected}>${g.name} (${g.group || "Bez skupiny"})</option>`;
-          }),
-        ].join("");
+        guestRowsEl.innerHTML = sortedGuests
+          .map((guest) => {
+            const guestResponse = responses.find((r) => r.assignedGuestId === guest.id);
+            let statusBadge = "";
+            let noteDetails = "";
 
-        let noteContent = escapeHtml(resp.note) || '';
-        const extras = [];
-        if (resp.plusOne) {
-          extras.push(`Doprovod: ${escapeHtml(resp.plusOne)}`);
-        }
-        if (resp.dietary) {
-          extras.push(`Jídlo/Alergie: ${escapeHtml(resp.dietary)}`);
-        }
-        if (extras.length > 0) {
-          const extrasStr = `<div class="admin-note-extras" style="font-size: 0.85em; margin-top: 4px; color: var(--color-text-muted); border-top: 1px dashed var(--color-border); padding-top: 4px;">${extras.join('<br>')}</div>`;
-          noteContent = noteContent ? `${noteContent}${extrasStr}` : extrasStr;
-        }
-        if (!noteContent) {
-          noteContent = '<span style="color: var(--color-text-muted); opacity: 0.5;">-</span>';
-        }
+            if (guestResponse) {
+              if (guestResponse.attending) {
+                statusBadge = `<span class="badge badge--success">Dorazí</span>`;
+              } else {
+                statusBadge = `<span class="badge badge--danger">Nedorazí</span>`;
+              }
 
-        return `
-          <tr data-response-id="${resp.responseId}">
-            <td><strong>${escapeHtml(resp.guestName)}</strong></td>
-            <td>${attendingBadge}</td>
-            <td>${noteContent}</td>
-            <td>
-              <select class="admin-assign-select" data-response-id="${resp.responseId}">
-                ${optionsHtml}
-              </select>
-            </td>
-            <td>${formatDateTime(resp.submittedAt)}</td>
-          </tr>
-        `;
-      })
-      .join("");
+              const details = [];
+              if (guestResponse.plusOne) {
+                details.push(`Doprovod: ${escapeHtml(guestResponse.plusOne)}`);
+              }
+              if (guestResponse.dietary) {
+                details.push(`Jídlo/Alergie: ${escapeHtml(guestResponse.dietary)}`);
+              }
+              if (guestResponse.note) {
+                details.push(`Poznámka: ${escapeHtml(guestResponse.note)}`);
+              }
+              noteDetails = details.length > 0
+                ? details.join("<br>")
+                : `<span style="color: var(--color-text-muted); opacity: 0.5;">Bez poznámky</span>`;
+            } else {
+              statusBadge = `<span class="badge badge--neutral">Čeká na vyjádření</span>`;
+              noteDetails = `<span style="color: var(--color-text-muted); opacity: 0.5;">-</span>`;
+            }
 
-    rowsEl.querySelectorAll(".admin-assign-select").forEach((select) => {
-      select.addEventListener("change", async (e) => {
-        const responseId = e.target.dataset.responseId;
-        const assignedGuestId = e.target.value;
-        e.target.disabled = true;
-
-        try {
-          await getJson("/.netlify/functions/rsvp", {
-            method: "PATCH",
-            body: JSON.stringify({ responseId, assignedGuestId }),
-          });
-          await loadAdminData();
-        } catch (err) {
-          alert("Chyba při přiřazení: " + err.message);
-          e.target.disabled = false;
-        }
-      });
-    });
+            return `
+              <tr>
+                <td><strong>${escapeHtml(guest.name)}</strong></td>
+                <td>${escapeHtml(guest.group || "Bez skupiny")}</td>
+                <td>${statusBadge}</td>
+                <td><div style="font-size: 0.9em; line-height: 1.4;">${noteDetails}</div></td>
+              </tr>
+            `;
+          })
+          .join("");
+      }
+    }
   };
 
   loadAdminData();
