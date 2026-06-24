@@ -42,8 +42,6 @@ if (rsvpForm) {
     const payload = {
       guestName: formData.get("guestName"),
       attending: formData.get("attending") === "yes",
-      plusOne: formData.get("plusOne"),
-      dietary: formData.get("dietary"),
       note: formData.get("note"),
     };
 
@@ -57,7 +55,7 @@ if (rsvpForm) {
     setStatus(rsvpStatus, "Odesílám potvrzení...", "");
 
     try {
-      await getJson("/.netlify/functions/rsvp", {
+      await getJson("//.netlify/functions/rsvp", {
         method: "POST",
         body: JSON.stringify(payload),
       });
@@ -160,8 +158,6 @@ if (sections.length && navLinks.length) {
           link.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
         }
       });
-
-
     },
     {
       rootMargin: "-28% 0px -58% 0px",
@@ -170,4 +166,142 @@ if (sections.length && navLinks.length) {
   );
 
   sections.forEach((section) => sectionObserver.observe(section));
+}
+
+/* Admin Dashboard Logic */
+const adminDashboard = document.querySelector("[data-admin-dashboard]");
+if (adminDashboard) {
+  const statsEl = adminDashboard.querySelector("[data-admin-stats]");
+  const rowsEl = adminDashboard.querySelector("[data-admin-rows]");
+  const statusEl = adminDashboard.querySelector("[data-admin-status]");
+
+  const formatDateTime = (isoString) => {
+    if (!isoString) return "";
+    const date = new Date(isoString);
+    return date.toLocaleString("cs-CZ", {
+      day: "2-digit",
+      month: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+  };
+
+  const escapeHtml = (str) => {
+    if (!str) return "";
+    return str
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  };
+
+  const loadAdminData = async () => {
+    setStatus(statusEl, "Načítám data...", "");
+    try {
+      const data = await getJson("/.netlify/functions/rsvp");
+      renderStats(data.stats);
+      renderTable(data.responses, data.guests);
+      setStatus(statusEl, "", "");
+    } catch (error) {
+      setStatus(statusEl, "Nepodařilo se načíst data: " + error.message, "error");
+    }
+  };
+
+  const renderStats = (stats) => {
+    if (!statsEl) return;
+    statsEl.innerHTML = `
+      <div class="admin-stat-card">
+        <strong>${stats.responses}</strong>
+        <span>Odpovědí</span>
+      </div>
+      <div class="admin-stat-card">
+        <strong>${stats.attending}</strong>
+        <span>Dorazí</span>
+      </div>
+      <div class="admin-stat-card">
+        <strong>${stats.declined}</strong>
+        <span>Nedorazí</span>
+      </div>
+      <div class="admin-stat-card">
+        <strong>${stats.assigned}/${stats.responses}</strong>
+        <span>Spárováno</span>
+      </div>
+    `;
+  };
+
+  const renderTable = (responses, guests) => {
+    if (!rowsEl) return;
+    if (!responses.length) {
+      rowsEl.innerHTML = `<tr><td colspan="5" style="text-align: center; padding: 30px;">Zatím žádné odpovědi.</td></tr>`;
+      return;
+    }
+
+    rowsEl.innerHTML = responses
+      .map((resp) => {
+        const attendingBadge = resp.attending
+          ? `<span class="badge badge--success">Ano</span>`
+          : `<span class="badge badge--danger">Ne</span>`;
+
+        const optionsHtml = [
+          `<option value="">-- Nepřiřazeno --</option>`,
+          ...guests.map((g) => {
+            const selected = g.id === resp.assignedGuestId ? "selected" : "";
+            return `<option value="${g.id}" ${selected}>${g.name} (${g.group || "Bez skupiny"})</option>`;
+          }),
+        ].join("");
+
+        let noteContent = escapeHtml(resp.note) || '';
+        const extras = [];
+        if (resp.plusOne) {
+          extras.push(`Doprovod: ${escapeHtml(resp.plusOne)}`);
+        }
+        if (resp.dietary) {
+          extras.push(`Jídlo/Alergie: ${escapeHtml(resp.dietary)}`);
+        }
+        if (extras.length > 0) {
+          const extrasStr = `<div class="admin-note-extras" style="font-size: 0.85em; margin-top: 4px; color: var(--color-text-muted); border-top: 1px dashed var(--color-border); padding-top: 4px;">${extras.join('<br>')}</div>`;
+          noteContent = noteContent ? `${noteContent}${extrasStr}` : extrasStr;
+        }
+        if (!noteContent) {
+          noteContent = '<span style="color: var(--color-text-muted); opacity: 0.5;">-</span>';
+        }
+
+        return `
+          <tr data-response-id="${resp.responseId}">
+            <td><strong>${escapeHtml(resp.guestName)}</strong></td>
+            <td>${attendingBadge}</td>
+            <td>${noteContent}</td>
+            <td>
+              <select class="admin-assign-select" data-response-id="${resp.responseId}">
+                ${optionsHtml}
+              </select>
+            </td>
+            <td>${formatDateTime(resp.submittedAt)}</td>
+          </tr>
+        `;
+      })
+      .join("");
+
+    rowsEl.querySelectorAll(".admin-assign-select").forEach((select) => {
+      select.addEventListener("change", async (e) => {
+        const responseId = e.target.dataset.responseId;
+        const assignedGuestId = e.target.value;
+        e.target.disabled = true;
+
+        try {
+          await getJson("/.netlify/functions/rsvp", {
+            method: "PATCH",
+            body: JSON.stringify({ responseId, assignedGuestId }),
+          });
+          await loadAdminData();
+        } catch (err) {
+          alert("Chyba při přiřazení: " + err.message);
+          e.target.disabled = false;
+        }
+      });
+    });
+  };
+
+  loadAdminData();
 }

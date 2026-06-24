@@ -144,10 +144,6 @@
           <div class="location-copy">
             <p class="eyebrow">Místo konání</p>
             <h2 id="misto-title">Ranch Tyra</h2>
-            <p>
-              Tyra 30, 739 61 Třinec 1. Areál bude otevřený od 12:00 a po celou
-              dobu bude k dispozici parkování, šatna i klidnější místo pro děti.
-            </p>
             <div class="location-actions">
               <a class="button" href="https://www.google.com/maps/search/?api=1&query=Tyra+30,+739+61+T%C5%99inec+1" target="_blank" rel="noreferrer">
                 Otevřít v mapách
@@ -221,16 +217,17 @@
             <p class="eyebrow">Potvrzení účasti</p>
             <h2 id="ucast-title">Dejte nám prosím vědět, jestli dorazíte.</h2>
             <p>
-              Napište své jméno a potvrďte účast. Pokud dorazíte s doprovodem,
-              doplňte prosím i jeho jméno, ať s ním můžeme počítat.
+              Napište své jméno a potvrďte účast.
             </p>
           </div>
 
           <form class="rsvp-panel attendance-form" data-rsvp-form>
-            <label for="guest-name">Vaše jméno</label>
-            <input id="guest-name" name="guestName" type="text" autocomplete="name" required placeholder="Jméno a příjmení" data-guest-name />
+            <div class="form-group">
+              <label for="guest-name">Vaše jméno</label>
+              <input id="guest-name" name="guestName" type="text" autocomplete="name" required placeholder="Jméno a příjmení" data-guest-name />
+            </div>
 
-            <fieldset>
+            <fieldset class="form-fieldset">
               <legend>Dorazíte?</legend>
               <label class="choice">
                 <input type="radio" name="attending" value="yes" required />
@@ -242,17 +239,15 @@
               </label>
             </fieldset>
 
-            <label for="plus-one">Doprovod</label>
-            <input id="plus-one" name="plusOne" type="text" autocomplete="name" placeholder="Jméno doprovodu" data-plus-one />
+            <div class="form-group">
+              <label for="note">Poznámka (jídlo, alergie...)</label>
+              <textarea id="note" name="note" rows="3" placeholder="Vegetarián, bez lepku, alergie, případně cokoli dalšího, co bychom měli vědět"></textarea>
+            </div>
 
-            <label for="dietary">Jídlo a alergie</label>
-            <textarea id="dietary" name="dietary" rows="3" placeholder="Vegetarián, alergie, bez lepku..."></textarea>
-
-            <label for="note">Poznámka</label>
-            <textarea id="note" name="note" rows="3" placeholder="Cokoliv dalšího, co máme vědět"></textarea>
-
-            <button class="button" type="submit">Odeslat potvrzení</button>
-            <p class="form-status" data-rsvp-status role="status"></p>
+            <div class="form-actions">
+              <button class="button" type="submit">Odeslat potvrzení</button>
+              <p class="form-status" data-rsvp-status role="status"></p>
+            </div>
           </form>
         </div>
       </section>
