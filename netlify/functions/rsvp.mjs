@@ -1,13 +1,14 @@
 import { getStore } from "@netlify/blobs";
 import { readFile } from "node:fs/promises";
 import { randomUUID } from "node:crypto";
+import { join } from "node:path";
 
 const headers = {
   "Content-Type": "application/json; charset=utf-8",
   "Cache-Control": "no-store",
 };
 
-const guestsUrl = new URL("../../data/guests.json", import.meta.url);
+const guestsPath = join(process.cwd(), "data", "guests.json");
 
 const json = (statusCode, body) => ({
   statusCode,
@@ -22,7 +23,7 @@ const normalizeText = (value, maxLength = 500) =>
     .slice(0, maxLength);
 
 const loadGuests = async () => {
-  const raw = await readFile(guestsUrl, "utf8");
+  const raw = await readFile(guestsPath, "utf8");
   const guests = JSON.parse(raw);
 
   if (!Array.isArray(guests)) {
