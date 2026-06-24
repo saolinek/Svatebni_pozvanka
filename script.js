@@ -55,7 +55,7 @@ if (rsvpForm) {
     setStatus(rsvpStatus, "Odesílám potvrzení...", "");
 
     try {
-      await getJson("//.netlify/functions/rsvp", {
+      await getJson("/.netlify/functions/rsvp", {
         method: "POST",
         body: JSON.stringify(payload),
       });
