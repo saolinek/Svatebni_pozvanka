@@ -1274,7 +1274,8 @@ footer p {
 @media (max-width: 980px) {
   .intro-grid,
   .location-grid,
-  .rsvp-grid {
+  .rsvp-grid,
+  .countdown-layout {
     grid-template-columns: 1fr;
     gap: 40px;
   }
@@ -1313,7 +1314,7 @@ footer p {
     flex-wrap: wrap;
     justify-content: flex-end;
     flex: 1;
-    max-width: 210px;
+    max-width: 260px;
   }
 
   .site-header nav a {
