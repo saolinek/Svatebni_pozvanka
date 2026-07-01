@@ -809,6 +809,16 @@ p {
   gap: 10px;
 }
 
+.form-group--wide {
+  grid-column: 1 / -1;
+}
+
+.form-help {
+  color: var(--color-text-muted);
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+
 .form-group label {
   font-size: 0.78rem;
   font-weight: 700;
@@ -1299,6 +1309,19 @@ footer p {
 
 .admin-table tr:hover td {
   background: var(--color-bg-alt);
+}
+
+.admin-song-list {
+  min-width: 180px;
+  margin: 0;
+  padding-left: 18px;
+  color: var(--color-text);
+  line-height: 1.55;
+}
+
+.admin-empty-value {
+  color: var(--color-text-muted);
+  opacity: 0.5;
 }
 
 .admin-assign-select {

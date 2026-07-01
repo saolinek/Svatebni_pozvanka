@@ -129,6 +129,11 @@ if (rsvpForm) {
       guestName: formData.get("guestName"),
       attending: formData.get("attending") === "yes",
       note: formData.get("note"),
+      songs: String(formData.get("songs") || "")
+        .split(/\r?\n/)
+        .map((song) => song.trim())
+        .filter(Boolean)
+        .slice(0, 5),
     };
 
     if (!payload.guestName || String(payload.guestName).trim().length < 2) {
@@ -328,7 +333,7 @@ if (adminDashboard) {
   const renderTable = (responses, guests) => {
     if (!rowsEl) return;
     if (!responses.length) {
-      rowsEl.innerHTML = `<tr><td colspan="6" style="text-align: center; padding: 30px;">Zatím žádné odpovědi.</td></tr>`;
+      rowsEl.innerHTML = `<tr><td colspan="7" style="text-align: center; padding: 30px;">Zatím žádné odpovědi.</td></tr>`;
     } else {
       rowsEl.innerHTML = responses
         .map((resp) => {
@@ -345,6 +350,10 @@ if (adminDashboard) {
           ].join("");
 
           let noteContent = escapeHtml(resp.note) || '';
+          const songs = Array.isArray(resp.songs) ? resp.songs : [];
+          const songsContent = songs.length
+            ? `<ul class="admin-song-list">${songs.map((song) => `<li>${escapeHtml(song)}</li>`).join("")}</ul>`
+            : '<span class="admin-empty-value">-</span>';
           const extras = [];
           if (resp.plusOne) {
             extras.push(`Doprovod: ${escapeHtml(resp.plusOne)}`);
@@ -365,6 +374,7 @@ if (adminDashboard) {
               <td><strong>${escapeHtml(resp.guestName)}</strong></td>
               <td>${attendingBadge}</td>
               <td>${noteContent}</td>
+              <td>${songsContent}</td>
               <td>
                 <select class="admin-assign-select" data-response-id="${resp.responseId}">
                   ${optionsHtml}

@@ -2,6 +2,7 @@ import { getStore, connectLambda } from "@netlify/blobs";
 import { readFile } from "node:fs/promises";
 import { randomUUID } from "node:crypto";
 import { join } from "node:path";
+import { normalizeSongs } from "./rsvp-utils.mjs";
 
 const headers = {
   "Content-Type": "application/json; charset=utf-8",
@@ -170,6 +171,7 @@ export async function handler(event) {
       plusOne: "",
       dietary: "",
       note: normalizeText(payload.note, 500),
+      songs: normalizeSongs(payload.songs),
       assignedGuestId: matchedGuest ? matchedGuest.id : "",
       assignedGuestName: matchedGuest ? matchedGuest.name : "",
       assignedGroup: matchedGuest ? matchedGuest.group : "",

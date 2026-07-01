@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "check": "node --check script.js && node --check netlify/functions/rsvp.mjs"
+    "check": "node --check script.js && node --check netlify/functions/rsvp.mjs && node --check netlify/functions/rsvp-utils.mjs && node --test tests/*.test.mjs"
   },
   "dependencies": {
     "@netlify/blobs": "10.7.9"
